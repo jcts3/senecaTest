@@ -22,7 +22,8 @@ module.exports = async event => {
     Item: {
       id: userId,
       sk: `${courseId}-${sessionId}`,
-      ...body
+      ...body,
+      courseId
     }
   };
   console.info("to send to ddb", params);
