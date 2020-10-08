@@ -1,0 +1,10 @@
+{
+  "httpMethod": "POST",
+  "body": "{\"sessionId\":\"iamasessionid\",\"totalModulesStudied\":4,\"averageScore\":50,\"timeStudied\":1234567}",
+  "pathParameters": {
+    "courseId": "iammathscourse"
+  },
+  "headers": {
+    "X-User-Id": "James234"
+  }
+}
