@@ -11,6 +11,7 @@
   },
   "scripts": {
     "test": "jest",
-    "bnd": "sam build && sam deploy"
+    "vbd": "sam validate &&sam build && sam deploy",
+    "get-c-inv": "sam local invoke getCourseStats --event events/seneca-get-course.json -n events/env.json"
   }
 }
