@@ -1,3 +1,4 @@
 const postSessionData = require("./functions/postSessionData");
+const getCourseStats = require("./functions/getCourseStats");
 
-module.exports = { postSessionData };
+module.exports = { postSessionData, getCourseStats };
