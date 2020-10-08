@@ -12,7 +12,24 @@ Globals:
     MemorySize: 128
 
 Resources:
-  getCourseStats:
+  GetSessionStats:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getCourseStats
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref StatsTable
+      Environment:
+        Variables:
+          STATS_TABLE: !Ref StatsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /courses/{courseId}/sessions/{sessionId}
+            Method: GET
+
+  GetCourseStats:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.getCourseStats
@@ -29,7 +46,7 @@ Resources:
             Path: /courses/{courseId}
             Method: GET
 
-  postSessionData:
+  PostSessionData:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.postSessionData
