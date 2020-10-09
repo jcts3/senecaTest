@@ -1,6 +1,8 @@
 const dynamodb = require("aws-sdk/clients/dynamodb");
 const docClient = new dynamodb.DocumentClient();
 
+const { handleCourseDynamoResult } = require("./helpers/helpers");
+
 const tableName = process.env.STATS_TABLE;
 
 module.exports = async event => {
@@ -38,7 +40,7 @@ module.exports = async event => {
 
   const result = await docClient.query(params).promise();
   console.info("result", result);
-  const processedResult = handleDynamoResult(result);
+  const processedResult = handleCourseDynamoResult(result);
 
   const response = {
     statusCode: 200,
@@ -46,23 +48,4 @@ module.exports = async event => {
   };
 
   return response;
-};
-
-const handleDynamoResult = ({ Items }) => {
-  const processedResult = Items.reduce(
-    (acc, record) => {
-      const newAcc = {
-        timeStudied: record.timeStudied + acc.timeStudied,
-        totalModulesStudied:
-          record.totalModulesStudied + acc.totalModulesStudied
-      };
-      newAcc.averageScore =
-        (acc.averageScore * acc.totalModulesStudied +
-          record.averageScore * record.totalModulesStudied) /
-        newAcc.totalModulesStudied;
-      return newAcc;
-    },
-    { timeStudied: 0, totalModulesStudied: 0, averageScore: 0 }
-  );
-  return processedResult;
 };
