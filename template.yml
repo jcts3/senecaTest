@@ -15,7 +15,7 @@ Resources:
   GetSessionStats:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.getCourseStats
+      Handler: index.getSessionStats
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref StatsTable
