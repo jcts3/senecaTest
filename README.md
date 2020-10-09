@@ -26,7 +26,8 @@ yarn get-s-inv
 yarn post-c-inv
 ```
 
-for the GetCourse, GetSession and PostSession endpoints respectively. In order to utilise these, env.json needs to be modified to contain the correct dynamoDB table in the cloud. (This presume the stack has been built.)
+for the GetCourse, GetSession and PostSession endpoints respectively. In order to utilise these, env.json needs to be modified to contain the correct dynamoDB table in the cloud. (This presume the stack has been built.) Obviously, in order to utilise the GET endpoint, appropriate POSTs must have been made.
+Additional manual testing was also done with Postman as a smoke test.
 
 # Design
 
@@ -50,3 +51,8 @@ This also assumes that the _X-User-ID_ being referred to is a user's ID, and not
 ## Additional Assumptions
 
 - That if a user attempts a session twice (e.g. to retry a test), that the prior history for the session in question can be disregarded. (The implicit assumption also of the sessionId remains the same on the retry)
+
+## Design Comments
+
+First time in a long while using Vanilla SAM, so made the most of the opportunity to get used to `sam local invoke`
+Further integration testing could be added, utilising actual cloud resources if required, but it would make more sense for these to be done in a dedicated test account (which felt a little out of the scope of this task)
