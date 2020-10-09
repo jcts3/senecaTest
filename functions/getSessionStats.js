@@ -1,8 +1,6 @@
 const dynamodb = require("aws-sdk/clients/dynamodb");
 const docClient = new dynamodb.DocumentClient();
 
-const { processCourseDynamoResult } = require("./helpers/helpers");
-
 const tableName = process.env.STATS_TABLE;
 
 module.exports = async event => {
@@ -15,11 +13,12 @@ module.exports = async event => {
   console.info("received:", event);
 
   const userId = event.headers["X-User-ID"];
-  const { courseId } = event.pathParameters;
+  const { courseId, sessionId } = event.pathParameters;
+  const skval = `${courseId}-${sessionId}`;
 
   const params = {
     TableName: tableName,
-    KeyConditionExpression: "#id = :id and begins_with ( #sk, :skval )",
+    KeyConditionExpression: "#id = :id and #sk = :skval",
     ProjectionExpression: [
       "id",
       "sk",
@@ -33,19 +32,27 @@ module.exports = async event => {
     },
     ExpressionAttributeValues: {
       ":id": userId,
-      ":skval": courseId
+      ":skval": skval
     }
   };
   console.info("request for ddb", params);
 
   const result = await docClient.query(params).promise();
   console.info("result", result);
-  const processedResult = processCourseDynamoResult(result);
 
+  const processedResult = processResult(result.Items[0], sessionId);
   const response = {
     statusCode: 200,
     body: JSON.stringify(processedResult)
   };
-
   return response;
+};
+
+const processResult = (result, sessionId) => {
+  return {
+    sessionId,
+    totalModulesStudied: result.totalModulesStudied,
+    averageScore: result.averageScore,
+    timeStudied: result.timeStudied
+  };
 };

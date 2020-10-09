@@ -1,6 +1,6 @@
 // GET COURSE STATS
 
-const handleCourseDynamoResult = ({ Items }) => {
+const processCourseDynamoResult = ({ Items }) => {
   const processedResult = Items.reduce(
     (acc, record) => {
       const newAcc = {
@@ -20,5 +20,5 @@ const handleCourseDynamoResult = ({ Items }) => {
 };
 
 module.exports = {
-  handleCourseDynamoResult
+  processCourseDynamoResult
 };

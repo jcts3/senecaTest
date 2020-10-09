@@ -1,0 +1,10 @@
+{
+  "httpMethod": "GET",
+  "pathParameters": {
+    "courseId": "maths1",
+    "sessionId": "iamasessionid3"
+  },
+  "headers": {
+    "X-User-ID": "James123"
+  }
+}

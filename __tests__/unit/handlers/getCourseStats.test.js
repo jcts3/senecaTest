@@ -1,7 +1,7 @@
 const lambda = require("../../../functions/getCourseStats");
 const dynamodb = require("aws-sdk/clients/dynamodb");
 const {
-  handleCourseDynamoResult
+  processCourseDynamoResult
 } = require("../../../functions/helpers/helpers");
 
 const getCourseEventJSON = require("../../../events/seneca-get-course.json");
@@ -42,7 +42,7 @@ describe("Test getCourseStats handler", () => {
     expect(getSpy).toHaveBeenCalledWith(expectedParams);
   });
 });
-describe("Test handleCourseDynamoResult", () => {
+describe("Test processCourseDynamoResult", () => {
   it("should return the correct aggregates", () => {
     const ItemsFromDynamo = [
       {
@@ -74,7 +74,7 @@ describe("Test handleCourseDynamoResult", () => {
         id: "James123"
       }
     ];
-    const processedResult = handleCourseDynamoResult({
+    const processedResult = processCourseDynamoResult({
       Items: ItemsFromDynamo
     });
     const expectation = {
