@@ -20,8 +20,7 @@ module.exports = async event => {
     TableName: tableName,
     KeyConditionExpression: "#id = :id and #sk = :skval",
     ProjectionExpression: [
-      "id",
-      "sk",
+      "sessionId",
       "averageScore",
       "timeStudied",
       "totalModulesStudied"
@@ -40,19 +39,9 @@ module.exports = async event => {
   const result = await docClient.query(params).promise();
   console.info("result", result);
 
-  const processedResult = processResult(result.Items[0], sessionId);
   const response = {
     statusCode: 200,
-    body: JSON.stringify(processedResult)
+    body: JSON.stringify(result.Items[0])
   };
   return response;
-};
-
-const processResult = (result, sessionId) => {
-  return {
-    sessionId,
-    totalModulesStudied: result.totalModulesStudied,
-    averageScore: result.averageScore,
-    timeStudied: result.timeStudied
-  };
 };
